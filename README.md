@@ -47,9 +47,8 @@ F --> H[Admin Dashboard]
 
 G --> I[Store Data in Database]
 H --> I
-
----
 ```
+
 ## ⚙️ Installation & Setup
 
 ### 1️⃣ Clone the repository
