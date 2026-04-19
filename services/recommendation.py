@@ -26,14 +26,14 @@ def generate_recommendation(roi, irr, risk_level):
     else:
         score += 0
 
-    # Final Decision
+    # 🔥 Improved Final Decision (Professional Text)
     if score >= 7:
-        decision = "Strong Buy"
+        decision = "BUY - Strong Investment Opportunity"
     elif score >= 5:
-        decision = "Buy"
+        decision = "HOLD - Good Investment Potential"
     elif score >= 3:
-        decision = "Moderate"
+        decision = "HOLD - Moderate Risk Investment"
     else:
-        decision = "Avoid"
+        decision = "AVOID - High Risk Investment"
 
     return decision

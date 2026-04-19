@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 kc_house_data.csv
 models/*.pkl
+.env
