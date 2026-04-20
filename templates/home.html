@@ -38,16 +38,6 @@
             color: #555;
         }
 
-        .btn {
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
-            border: none;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 10px;
-        }
-
         .features {
             display: flex;
             justify-content: space-around;
@@ -62,28 +52,64 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        /* ✅ AI Floating Button */
+        /* 🤖 Floating Button */
         .ai-button {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             background: #0d6efd;
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 26px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: 0.3s;
         }
 
-        .ai-button:hover {
-            background: #084298;
-            transform: scale(1.1);
+        /* 💬 Chat Popup */
+        .chat-popup {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 300px;
+            height: 380px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #0d6efd;
+            color: white;
+            padding: 10px;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .chat-footer {
+            display: flex;
+        }
+
+        .chat-footer input {
+            flex: 1;
+            padding: 8px;
+            border: none;
+        }
+
+        .chat-footer button {
+            background: #0d6efd;
+            color: white;
+            border: none;
+            padding: 8px 12px;
         }
     </style>
 </head>
@@ -94,7 +120,6 @@
 <div class="navbar">
     <h2>RealEstate AI</h2>
     <div>
-
         {% if current_user.is_authenticated %}
             <a href="/dashboard">Dashboard</a>
             <a href="/logout">Logout</a>
@@ -102,44 +127,80 @@
             <a href="/login">Login</a>
             <a href="/register">Register</a>
         {% endif %}
-
     </div>
 </div>
 
-<!-- Hero Section -->
+<!-- Hero -->
 <div class="hero">
     <h1>Smart Real Estate Investment Analysis</h1>
-    <p>Predict property prices, calculate ROI, analyze risk, and make data-driven investment decisions.</p>
-    <a href="/login" class="btn">Get Started</a>
+    <p>Predict property prices, calculate ROI, analyze risk.</p>
 </div>
 
 <!-- Features -->
 <div class="features">
     <div class="card">
         <h3>📈 Price Prediction</h3>
-        <p>AI-based property price estimation.</p>
+        <p>AI-based property estimation</p>
     </div>
 
     <div class="card">
         <h3>💰 ROI & IRR</h3>
-        <p>Advanced financial analysis for investments.</p>
+        <p>Investment insights</p>
     </div>
 
     <div class="card">
         <h3>⚠ Risk Analysis</h3>
-        <p>Monte Carlo simulation for risk assessment.</p>
+        <p>Monte Carlo simulation</p>
     </div>
 </div>
 
-<!-- 🤖 AI Floating Button -->
-<div class="ai-button" onclick="openChat()">
-    🤖
+<!-- 🤖 Button -->
+<div class="ai-button" onclick="toggleChat()">🤖</div>
+
+<!-- 💬 Chat Popup -->
+<div class="chat-popup" id="chatBox">
+
+    <div class="chat-header">
+        AI Assistant
+        <span style="float:right;cursor:pointer;" onclick="toggleChat()">✖</span>
+    </div>
+
+    <div class="chat-body" id="chatBody"></div>
+
+    <div class="chat-footer">
+        <input type="text" id="userInput" placeholder="Type...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
 </div>
 
-<!-- Script -->
+<!-- JS -->
 <script>
-function openChat() {
-    window.location.href = "/chat";
+function toggleChat() {
+    let box = document.getElementById("chatBox");
+    box.style.display = box.style.display === "flex" ? "none" : "flex";
+}
+
+async function sendMessage() {
+    let input = document.getElementById("userInput");
+    let msg = input.value;
+    if (!msg) return;
+
+    let chat = document.getElementById("chatBody");
+
+    chat.innerHTML += "<p><b>You:</b> " + msg + "</p>";
+    input.value = "";
+
+    let res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: msg})
+    });
+
+    let data = await res.json();
+
+    chat.innerHTML += "<p><b>AI:</b> " + data.response + "</p>";
+    chat.scrollTop = chat.scrollHeight;
 }
 </script>
 
