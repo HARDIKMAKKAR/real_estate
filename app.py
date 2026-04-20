@@ -6,7 +6,10 @@ from services.recommendation import generate_recommendation
 from services.investment_score import calculate_investment_score
 
 from database import db, User, Analysis, Property
+<<<<<<< HEAD
 from services.chatbot import get_ai_response
+=======
+>>>>>>> 6e7e4bf0702a4173566f97407e9cbfce7877f258
 
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -80,10 +83,19 @@ def register():
 # =========================
 # LOGIN
 # =========================
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6e7e4bf0702a4173566f97407e9cbfce7877f258
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
 
+<<<<<<< HEAD
+=======
+    if request.method == "POST":
+>>>>>>> 6e7e4bf0702a4173566f97407e9cbfce7877f258
         username = request.form.get("username")
         password = request.form.get("password")
 
@@ -104,6 +116,20 @@ def login():
 # =========================
 # LOGOUT
 # =========================
+<<<<<<< HEAD
+=======
+
+
+@app.after_request
+def add_header(response):
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
+
+
+>>>>>>> 6e7e4bf0702a4173566f97407e9cbfce7877f258
 @app.route("/logout")
 @login_required
 def logout():
@@ -456,6 +482,7 @@ def api_admin_stats():
         "total_users": total_users,
         "total_analysis": total_analysis
     })
+<<<<<<< HEAD
 @app.route("/chat", methods=["GET", "POST"])
 def chat():
 
@@ -469,6 +496,8 @@ def chat():
         reply = get_ai_response(user_msg)
         return jsonify({"response": reply})
 
+=======
+>>>>>>> 6e7e4bf0702a4173566f97407e9cbfce7877f258
 
 
 # =========================
