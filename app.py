@@ -4,6 +4,7 @@ from services.financial import calculate_noi, calculate_cap_rate, calculate_cash
 from services.risk import monte_carlo_simulation, calculate_risk_score
 from services.recommendation import generate_recommendation
 from services.investment_score import calculate_investment_score
+from groq import Groq
 
 from database import db, User, Analysis, Property
 
@@ -12,6 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 load_dotenv()
 import os
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 app = Flask(__name__, template_folder='templates')
 
@@ -79,7 +81,6 @@ def register():
 # =========================
 # LOGIN
 # =========================
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
@@ -495,6 +496,29 @@ def api_admin_stats():
         "total_users": total_users,
         "total_analysis": total_analysis
     })
+# =========================
+# CHATBOT
+# =========================
+@app.route("/chat", methods=["POST"])
+
+def chat():
+    try:
+        user_msg = request.json.get("message")
+
+        response = client.chat.completions.create(
+           model="llama-3.3-70b-versatile",
+            messages=[
+                {"role": "system", "content": "You are a helpful real estate investment assistant."},
+                {"role": "user", "content": user_msg}
+            ]
+        )
+
+        reply = response.choices[0].message.content
+
+        return jsonify({"response": reply})
+
+    except Exception as e:
+        return jsonify({"response": f"Error: {str(e)}"})
 
 
 # =========================
