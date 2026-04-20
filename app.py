@@ -441,6 +441,7 @@ def api_history():
 
 
 
+
 @app.route("/api/delete-analysis/<int:id>", methods=["DELETE"])
 @login_required
 def api_delete_analysis(id):
@@ -454,6 +455,31 @@ def api_delete_analysis(id):
 
     return jsonify({"message": "Deleted successfully"})
 
+@app.route("/api/trends", methods=["GET"])
+@login_required
+def api_trends():
+
+    # OPTIONAL: restrict to normal users only
+    if current_user.role == "admin":
+        return jsonify({"error": "Not allowed"}), 403
+
+    analyses = Analysis.query.filter_by(user_id=current_user.id)\
+                .order_by(Analysis.created_at).all()
+
+    dates = []
+    prices = []
+    rois = []
+
+    for a in analyses:
+        dates.append(a.created_at.strftime("%Y-%m-%d"))
+        prices.append(a.predicted_price)
+        rois.append(a.roi)
+
+    return jsonify({
+        "dates": dates,
+        "prices": prices,
+        "rois": rois
+    })
 
 
 @app.route("/api/admin/stats", methods=["GET"])
