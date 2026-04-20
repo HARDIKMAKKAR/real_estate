@@ -4,18 +4,16 @@ from services.financial import calculate_noi, calculate_cap_rate, calculate_cash
 from services.risk import monte_carlo_simulation, calculate_risk_score
 from services.recommendation import generate_recommendation
 from services.investment_score import calculate_investment_score
+from groq import Groq
 
 from database import db, User, Analysis, Property
-<<<<<<< HEAD
-from services.chatbot import get_ai_response
-=======
->>>>>>> 6e7e4bf0702a4173566f97407e9cbfce7877f258
 
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 load_dotenv()
 import os
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 app = Flask(__name__, template_folder='templates')
 
@@ -83,19 +81,12 @@ def register():
 # =========================
 # LOGIN
 # =========================
-<<<<<<< HEAD
-=======
-
->>>>>>> 6e7e4bf0702a4173566f97407e9cbfce7877f258
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("dashboard"))
 
-<<<<<<< HEAD
-=======
     if request.method == "POST":
->>>>>>> 6e7e4bf0702a4173566f97407e9cbfce7877f258
         username = request.form.get("username")
         password = request.form.get("password")
 
@@ -116,8 +107,6 @@ def login():
 # =========================
 # LOGOUT
 # =========================
-<<<<<<< HEAD
-=======
 
 
 @app.after_request
@@ -129,7 +118,6 @@ def add_header(response):
 
 
 
->>>>>>> 6e7e4bf0702a4173566f97407e9cbfce7877f258
 @app.route("/logout")
 @login_required
 def logout():
@@ -482,22 +470,29 @@ def api_admin_stats():
         "total_users": total_users,
         "total_analysis": total_analysis
     })
-<<<<<<< HEAD
-@app.route("/chat", methods=["GET", "POST"])
+# =========================
+# CHATBOT
+# =========================
+@app.route("/chat", methods=["POST"])
+
 def chat():
+    try:
+        user_msg = request.json.get("message")
 
-    # 👉 UI load
-    if request.method == "GET":
-        return render_template("chat.html")
+        response = client.chat.completions.create(
+           model="llama-3.3-70b-versatile",
+            messages=[
+                {"role": "system", "content": "You are a helpful real estate investment assistant."},
+                {"role": "user", "content": user_msg}
+            ]
+        )
 
-    # 👉 AI response
-    if request.method == "POST":
-        user_msg = request.json["message"]
-        reply = get_ai_response(user_msg)
+        reply = response.choices[0].message.content
+
         return jsonify({"response": reply})
 
-=======
->>>>>>> 6e7e4bf0702a4173566f97407e9cbfce7877f258
+    except Exception as e:
+        return jsonify({"response": f"Error: {str(e)}"})
 
 
 # =========================
