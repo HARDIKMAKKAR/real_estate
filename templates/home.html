@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real Estate Investment Analyzer</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f4f6f8;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 40px;
+            background: #2c3e50;
+            color: white;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            margin: 50px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            width: 25%;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* ✅ AI Floating Button */
+        .ai-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: #0d6efd;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: 0.3s;
+        }
+
+        .ai-button:hover {
+            background: #084298;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <h2>RealEstate AI</h2>
+    <div>
+
+        {% if current_user.is_authenticated %}
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        {% endif %}
+
+    </div>
+</div>
+
+<!-- Hero Section -->
+<div class="hero">
+    <h1>Smart Real Estate Investment Analysis</h1>
+    <p>Predict property prices, calculate ROI, analyze risk, and make data-driven investment decisions.</p>
+    <a href="/login" class="btn">Get Started</a>
+</div>
+
+<!-- Features -->
+<div class="features">
+    <div class="card">
+        <h3>📈 Price Prediction</h3>
+        <p>AI-based property price estimation.</p>
+    </div>
+
+    <div class="card">
+        <h3>💰 ROI & IRR</h3>
+        <p>Advanced financial analysis for investments.</p>
+    </div>
+
+    <div class="card">
+        <h3>⚠ Risk Analysis</h3>
+        <p>Monte Carlo simulation for risk assessment.</p>
+    </div>
+</div>
+
+<!-- 🤖 AI Floating Button -->
+<div class="ai-button" onclick="openChat()">
+    🤖
+</div>
+
+<!-- Script -->
+<script>
+function openChat() {
+    window.location.href = "/chat";
+}
+</script>
+
+</body>
+</html>
