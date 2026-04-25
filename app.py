@@ -190,8 +190,27 @@ def analyze():
             "year_sold": year_sold
         }
 
-        predicted_price = predict_price(property_data) * 83
-        suggested_rent = predicted_price * 0.08
+        # =============================
+        # PREDICTION (WITH CORRECTION LAYER)
+        # =============================
+
+        predicted_price_usd = predict_price(property_data)
+
+        # Step 1: USD → INR
+        price_inr = predicted_price_usd * 93
+
+        # Step 2: Indian market correction
+        if sqft_living > 3000:
+            correction_factor = 0.35
+        elif sqft_living > 1500:
+            correction_factor = 0.4
+        else:
+            correction_factor = 0.45
+
+        predicted_price = price_inr * correction_factor
+
+        # Step 3: Realistic Indian rental yield
+        suggested_rent = predicted_price * 0.06
 
         # =============================
         # FINANCIALS
@@ -370,8 +389,20 @@ def analyze_api():
             "year_sold": property_obj.year_sold
         }
 
-        predicted_price = predict_price(property_data) * 83
-        suggested_rent = predicted_price * 0.08
+        predicted_price_usd = predict_price(property_data)
+
+        price_inr = predicted_price_usd * 93
+
+        if sqft_living > 3000:
+            correction_factor = 0.35
+        elif sqft_living > 1500:
+            correction_factor = 0.4
+        else:
+            correction_factor = 0.45
+
+        predicted_price = price_inr * correction_factor
+
+        suggested_rent = predicted_price * 0.06
 
         # Financials
         noi = calculate_noi(annual_rent, annual_expenses)
@@ -422,6 +453,53 @@ def analyze_api():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+
+
+@app.route("/compare")
+@login_required
+def compare_page():
+    return render_template("compare.html")
+
+
+@app.route("/api/compare", methods=["POST"])
+@login_required
+def compare_properties():
+
+    data = request.get_json()
+
+    def analyze(prop):
+
+        property_data = {
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "sqft_living": prop["sqft_living"],
+            "grade": 5,
+            "condition": 3,
+            "yr_built": 2000,
+            "lat": 0,
+            "long": 0,
+            "year_sold": 2020
+        }
+
+        price = predict_price(property_data) * 93 * 0.4
+
+        noi = calculate_noi(prop["rent"], prop["expenses"])
+        cashflow = calculate_cashflow(prop["rent"], prop["expenses"], prop["loan"])
+
+        roi = calculate_roi(cashflow * prop["years"], price)
+        irr = calculate_irr(price, cashflow, prop["years"])
+
+        return {
+            "price": round(price,2),
+            "roi": round(roi,2),
+            "irr": round(irr,2)
+        }
+
+    return jsonify({
+        "property1": analyze(data["property1"]),
+        "property2": analyze(data["property2"])
+    })
+
 
 @app.route("/api/history", methods=["GET"])
 @login_required

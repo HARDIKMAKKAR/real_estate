@@ -19,6 +19,19 @@ def calculate_roi(total_profit, total_investment):
 
 
 def calculate_irr(initial_investment, annual_cashflow, years):
-    cash_flows = [-initial_investment] + [annual_cashflow] * years
+    appreciation_rate = 0.05  # 5% yearly growth (can tune)
+
+    # Future property value
+    future_price = initial_investment * ((1 + appreciation_rate) ** years)
+
+    # Cashflow timeline
+    cash_flows = [-initial_investment]
+
+    for i in range(1, years):
+        cash_flows.append(annual_cashflow)
+
+    # Last year includes sale value
+    cash_flows.append(annual_cashflow + future_price)
+
     irr = npf.irr(cash_flows)
     return irr * 100 if irr is not None else 0
