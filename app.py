@@ -52,24 +52,41 @@ def home():
 # =========================
 # REGISTER
 # =========================
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
 
+        import re
+
         username = request.form.get("username")
         password = request.form.get("password")
 
+        # ✅ Basic validation
         if not username or not password:
-            return "Invalid input"
+            return render_template("register.html", error="Invalid input")
 
+        # 🔐 PASSWORD REGEX VALIDATION
+        PASSWORD_REGEX = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
+
+        if not re.match(PASSWORD_REGEX, password):
+            return render_template(
+                "register.html",
+                error="Password must be 8+ chars with uppercase, lowercase, number & special character"
+            )
+
+        # ✅ Check existing user
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            return "User already exists!"
+            return render_template("register.html", error="User already exists!")
 
+        # ✅ Assign role
         role = "admin" if username == "admin" else "user"
 
+        # ✅ Hash password
         hashed_password = generate_password_hash(password)
 
+        # ✅ Save user
         new_user = User(username=username, password=hashed_password, role=role)
         db.session.add(new_user)
         db.session.commit()
@@ -77,6 +94,7 @@ def register():
         return redirect(url_for("login"))
 
     return render_template("register.html")
+
 
 # =========================
 # LOGIN
