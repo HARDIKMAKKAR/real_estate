@@ -1,131 +1,174 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Real Estate Investment Analyzer</title>
-    <style>
-        body {
-            font-family: Arial;
-            margin: 0;
-            background: #f4f6f8;
-        }
+<title>Real Estate Investment Analyzer</title>
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 40px;
-            background: #2c3e50;
-            color: white;
-        }
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+    color: white;
+}
 
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-        }
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 60px;
+    background: linear-gradient(90deg, #1e1e2f, #2a2a40);
+}
 
-        .hero {
-            text-align: center;
-            padding: 80px 20px;
-        }
+.navbar a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+    padding: 10px 22px;   /* BIGGER */
+    border-radius: 25px;
+    font-weight: 500;
+    background: #7f00ff;  /* SAME COLOR */
+    transition: 0.3s;
+}
 
-        .hero h1 {
-            font-size: 40px;
-        }
+.navbar a:hover {
+    background: white;
+    color: #1e1e2f;
+}
 
-        .hero p {
-            font-size: 18px;
-            color: #555;
-        }
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 110px 20px;
+    background: linear-gradient(120deg, #7f00ff, #e100ff);
+}
 
-        .btn {
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-        }
+.hero h1 {
+    font-size: 46px;
+}
 
-        .features {
-            display: flex;
-            justify-content: space-around;
-            margin: 50px;
-        }
+.hero p {
+    font-size: 18px;
+    margin-top: 10px;
+    opacity: 0.9;
+}
 
-        .card {
-            background: white;
-            padding: 20px;
-            width: 25%;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
+.btn {
+    margin-top: 25px;
+    padding: 12px 28px;
+    border-radius: 30px;
+    background: white;
+    color: #7f00ff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
 
-        /* 🤖 Button */
-        .ai-button {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 65px;
-            height: 65px;
-            background: #0d6efd;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            cursor: pointer;
-        }
+.btn:hover {
+    transform: scale(1.05);
+    background: #1e1e2f;
+    color: white;
+}
 
-        /* 💬 Chat Popup */
-        .chat-popup {
-            display: none;
-            position: fixed;
-            bottom: 100px;
-            right: 25px;
-            width: 300px;
-            height: 380px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            flex-direction: column;
-        }
+/* FEATURES */
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin: 70px 40px;
+}
 
-        .chat-header {
-            background: #0d6efd;
-            color: white;
-            padding: 10px;
-        }
+.card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    width: 260px;
+    border-radius: 15px;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
 
-        .chat-body {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-        }
+.card:hover {
+    transform: translateY(-12px) scale(1.03);
+    background: rgba(255,255,255,0.15);
+}
 
-        .chat-footer {
-            display: flex;
-        }
+/* 🤖 BUTTON */
+.ai-button {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(45deg, #7f00ff, #e100ff);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
 
-        .chat-footer input {
-            flex: 1;
-            padding: 8px;
-            border: none;
-        }
+/* CHAT */
+.chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 110px;
+    right: 25px;
+    width: 320px;
+    height: 420px;
+    background: #2a2a40;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    flex-direction: column;
+    overflow: hidden;
+}
 
-        .chat-footer button {
-            background: #0d6efd;
-            color: white;
-            border: none;
-            padding: 8px;
-        }
-    </style>
+.chat-header {
+    background: linear-gradient(45deg, #7f00ff, #e100ff);
+    color: white;
+    padding: 12px;
+    font-weight: bold;
+}
+
+.chat-body {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.chat-footer {
+    display: flex;
+    border-top: 1px solid #444;
+}
+
+.chat-footer input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: #1e1e2f;
+    color: white;
+}
+
+.chat-footer button {
+    background: #7f00ff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+</style>
 </head>
 
 <body>
 
-<!-- Navbar -->
+<!-- NAVBAR -->
 <div class="navbar">
-    <h2>RealEstate AI</h2>
+    <h2>🏠 RealEstate AI</h2>
     <div>
         {% if current_user.is_authenticated %}
             <a href="/dashboard">Dashboard</a>
@@ -137,35 +180,48 @@
     </div>
 </div>
 
-<!-- Hero -->
+<!-- HERO -->
 <div class="hero">
-    <h1>Smart Real Estate Investment Analysis</h1>
-    <p>Predict property prices, calculate ROI, analyze risk, and make data-driven investment decisions.</p>
+    <h1>Smart Real Estate Investment</h1>
+    <p>Predict prices, calculate ROI, analyze risk & invest smarter with AI</p>
     <a href="/login" class="btn">Get Started</a>
 </div>
 
-<!-- Features -->
+<!-- FEATURES -->
 <div class="features">
+
     <div class="card">
         <h3>📈 Price Prediction</h3>
-        <p>AI-based property price estimation.</p>
+        <p>AI-based property value estimation.</p>
     </div>
+
     <div class="card">
         <h3>💰 ROI & IRR</h3>
-        <p>Advanced financial analysis for investments.</p>
+        <p>Advanced financial insights.</p>
     </div>
+
     <div class="card">
         <h3>⚠ Risk Analysis</h3>
-        <p>Monte Carlo simulation for risk assessment.</p>
+        <p>Monte Carlo risk evaluation.</p>
     </div>
+
+    <div class="card">
+        <h3>📊 Market Trends</h3>
+        <p>Visualize property trends using charts.</p>
+    </div>
+
+    <div class="card">
+        <h3>🏘 Property Comparison</h3>
+        <p>Compare multiple properties easily.</p>
+    </div>
+
 </div>
 
-<!-- 🤖 Floating Button -->
+<!-- 🤖 BUTTON -->
 <div class="ai-button" onclick="toggleChat()">🤖</div>
 
-<!-- 💬 Chat Popup -->
+<!-- CHAT -->
 <div class="chat-popup" id="chatBox">
-
     <div class="chat-header">
         AI Assistant
         <span style="float:right;cursor:pointer;" onclick="toggleChat()">✖</span>
@@ -174,13 +230,11 @@
     <div class="chat-body" id="chatBody"></div>
 
     <div class="chat-footer">
-        <input type="text" id="userInput" placeholder="Type message...">
+        <input type="text" id="userInput" placeholder="Ask something...">
         <button onclick="sendMessage()">Send</button>
     </div>
-
 </div>
 
-<!-- JS -->
 <script>
 function toggleChat() {
     let box = document.getElementById("chatBox");
@@ -194,7 +248,7 @@ async function sendMessage() {
 
     let chat = document.getElementById("chatBody");
 
-    chat.innerHTML += "<p><b>You:</b> " + msg + "</p>";
+    chat.innerHTML += `<p><b>You:</b> ${msg}</p>`;
     input.value = "";
 
     let res = await fetch("/chat", {
@@ -205,7 +259,7 @@ async function sendMessage() {
 
     let data = await res.json();
 
-    chat.innerHTML += "<p><b>AI:</b> " + data.response + "</p>";
+    chat.innerHTML += `<p><b>AI:</b> ${data.response}</p>`;
     chat.scrollTop = chat.scrollHeight;
 }
 </script>

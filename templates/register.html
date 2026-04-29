@@ -3,18 +3,98 @@
 <head>
     <title>Register - Real Estate AI</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border: none;
+            border-radius: 15px;
+            color: white;
+        }
+
+        h3 {
+            font-weight: 600;
+        }
+
+        label {
+            color: #ccc;
+        }
+
+        .form-control {
+            background: #1e1e2f;
+            border: 1px solid #444;
+            color: white;
+        }
+
+        .form-control:focus {
+            background: #1e1e2f;
+            color: white;
+            border-color: #7f00ff;
+            box-shadow: none;
+        }
+
+        .input-group button {
+            background: #2a2a40;
+            border: 1px solid #444;
+            color: white;
+        }
+
+        .input-group button:hover {
+            background: #7f00ff;
+        }
+
+        .btn-custom {
+            background: linear-gradient(45deg, #7f00ff, #e100ff);
+            border: none;
+            color: white;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 25px;
+            transition: 0.3s;
+        }
+
+        .btn-custom:hover {
+            background: white;
+            color: #7f00ff;
+        }
+
+        .form-text {
+            color: #aaa;
+        }
+
+        a {
+            color: #e100ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: white;
+        }
+
+        .alert-danger {
+            background: rgba(255, 0, 0, 0.2);
+            border: none;
+            color: #ff6b6b;
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-5">
 
             <div class="card shadow p-4">
-                <h3 class="text-center mb-4">Create Account</h3>
+                <h3 class="text-center mb-4">📝 Create Account</h3>
 
-                <!-- ERROR MESSAGE -->
                 {% if error %}
                 <div class="alert alert-danger">
                     {{ error }}
@@ -23,26 +103,24 @@
 
                 <form method="POST">
 
-                    <!-- USERNAME -->
                     <div class="mb-3">
-                        <label class="form-label">Username</label>
+                        <label>Username</label>
                         <input type="text" class="form-control" name="username" required>
                     </div>
 
-                    <!-- PASSWORD -->
                     <div class="mb-3">
-                        <label class="form-label">Password</label>
+                        <label>Password</label>
 
                         <div class="input-group">
-                            <input 
-                                type="password" 
+                            <input
+                                type="password"
                                 id="password"
-                                class="form-control" 
-                                name="password" 
+                                class="form-control"
+                                name="password"
                                 required
                                 pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
                             >
-                            <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁</button>
+                            <button type="button" onclick="togglePassword()">👁</button>
                         </div>
 
                         <div class="form-text">
@@ -50,14 +128,13 @@
                         </div>
                     </div>
 
-                    <!-- SUBMIT -->
                     <div class="d-grid">
-                        <button class="btn btn-primary">Register</button>
+                        <button class="btn btn-custom">Register</button>
                     </div>
 
                 </form>
 
-                <hr>
+                <hr style="border-color:#444;">
 
                 <p class="text-center">
                     Already have an account?

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Real Estate AI{% endblock %}</title>
+
+    <!-- Bootstrap (optional but useful) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Chart.js (important for charts) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+        color: white;
+    }
+
+    /* CARDS */
+    .card {
+        background: rgba(255,255,255,0.08);
+        border: none;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        color: white;
+    }
+
+    /* BUTTON */
+    .btn-custom {
+        background: #7f00ff;
+        border: none;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 25px;
+    }
+
+    .btn-custom:hover {
+        background: white;
+        color: #7f00ff;
+    }
+
+    /* 🤖 BUTTON */
+    .ai-button {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(45deg, #7f00ff, #e100ff);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        z-index: 999;
+    }
+
+    /* CHAT */
+    .chat-popup {
+        display: none;
+        position: fixed;
+        bottom: 110px;
+        right: 25px;
+        width: 320px;
+        height: 420px;
+        background: #2a2a40;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 999;
+    }
+
+    .chat-header {
+        background: linear-gradient(45deg, #7f00ff, #e100ff);
+        color: white;
+        padding: 12px;
+        font-weight: bold;
+    }
+
+    .chat-body {
+        flex: 1;
+        padding: 12px;
+        overflow-y: auto;
+        font-size: 14px;
+        color: white;
+    }
+
+    .chat-footer {
+        display: flex;
+        border-top: 1px solid #444;
+    }
+
+    .chat-footer input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        background: #1e1e2f;
+        color: white;
+    }
+
+    .chat-footer button {
+        background: #7f00ff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<!-- PAGE CONTENT -->
+{% block content %}{% endblock %}
+
+<!-- 🤖 CHATBOT BUTTON -->
+<div class="ai-button" onclick="toggleChat()">🤖</div>
+
+<!-- CHAT UI -->
+<div class="chat-popup" id="chatBox">
+    <div class="chat-header">
+        AI Assistant
+        <span style="float:right;cursor:pointer;" onclick="toggleChat()">✖</span>
+    </div>
+
+    <div class="chat-body" id="chatBody"></div>
+
+    <div class="chat-footer">
+        <input type="text" id="userInput" placeholder="Ask something...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<!-- CHAT SCRIPT -->
+<script>
+function toggleChat() {
+    let box = document.getElementById("chatBox");
+    box.style.display = box.style.display === "flex" ? "none" : "flex";
+}
+
+async function sendMessage() {
+    let input = document.getElementById("userInput");
+    let msg = input.value;
+    if (!msg) return;
+
+    let chat = document.getElementById("chatBody");
+
+    chat.innerHTML += `<p><b style="color:#00c6ff;">You:</b> ${msg}</p>`;
+    input.value = "";
+
+    let res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: msg})
+    });
+
+    let data = await res.json();
+
+    chat.innerHTML += `<p><b style="color:#ffcc00;">AI:</b> ${data.response}</p>`;
+    chat.scrollTop = chat.scrollHeight;
+}
+</script>
+
+<!-- ✅ IMPORTANT (for charts etc) -->
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

@@ -1,38 +1,76 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Compare Properties</title>
+{% extends "base.html" %}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+{% block title %}Compare Properties{% endblock %}
 
-    <style>
-        body {
-            background: #f4f6f9;
-        }
+{% block content %}
 
-        .card {
-            border-radius: 12px;
-            border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        .result-card {
-            margin-top: 40px;
-        }
+<style>
+/* CARD */
+.card {
+    background: #2a2a40;
+    color: white;
+    border: none;
+    border-radius: 12px;
+}
 
-        .vs-box {
-            font-size: 28px;
-            font-weight: bold;
-            color: #6c757d;
-        }
+/* LABELS */
+label {
+    color: #ccc;
+}
 
-        .winner-box {
-            font-size: 18px;
-        }
-    </style>
-</head>
+/* INPUT */
+.form-control {
+    background: #1e1e2f;
+    border: 1px solid #444;
+    color: white;
+}
 
-<body>
+.form-control:focus {
+    background: #1e1e2f;
+    color: white;
+    border-color: #7f00ff;
+    box-shadow: none;
+}
+
+/* HEADINGS */
+h2, h4, h5, h6 {
+    color: white;
+}
+
+/* BUTTON */
+.btn-dark {
+    background: linear-gradient(45deg, #7f00ff, #e100ff);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+}
+
+/* RESULT */
+.result-card {
+    margin-top: 40px;
+}
+
+/* VS */
+.vs-box {
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+}
+
+/* WINNER */
+.winner-box {
+    font-size: 18px;
+}
+
+/* ALERT FIX */
+.alert-success {
+    background: #1e3d2f;
+    color: #00ffae;
+    border: none;
+}
+</style>
 
 <div class="container mt-5">
 
@@ -44,8 +82,7 @@
 
             <!-- PROPERTY A -->
             <div class="col-md-6">
-
-                <h4 class="text-primary mb-3">Property A</h4>
+                <h4 class="mb-3" style="color:#7f00ff;">Property A</h4>
 
                 <label>Bedrooms</label>
                 <input type="number" id="a_bed" class="form-control mb-2">
@@ -56,23 +93,23 @@
                 <label>Sqft Living</label>
                 <input type="number" id="a_sqft" class="form-control mb-2">
 
-                <label>Grade (1-13)</label>
-<input type="number" id="a_grade" class="form-control mb-2">
+                <label>Grade</label>
+                <input type="number" id="a_grade" class="form-control mb-2">
 
-<label>Condition (1-5)</label>
-<input type="number" id="a_condition" class="form-control mb-2">
+                <label>Condition</label>
+                <input type="number" id="a_condition" class="form-control mb-2">
 
-<label>Year Built</label>
-<input type="number" id="a_year" class="form-control mb-2">
+                <label>Year Built</label>
+                <input type="number" id="a_year" class="form-control mb-2">
 
-<label>Year Sold</label>
-<input type="number" id="a_sold" class="form-control mb-2">
+                <label>Year Sold</label>
+                <input type="number" id="a_sold" class="form-control mb-2">
 
-<label>Latitude</label>
-<input type="text" id="a_lat" class="form-control mb-2">
+                <label>Latitude</label>
+                <input type="text" id="a_lat" class="form-control mb-2">
 
-<label>Longitude</label>
-<input type="text" id="a_long" class="form-control mb-2">
+                <label>Longitude</label>
+                <input type="text" id="a_long" class="form-control mb-2">
 
                 <label>Annual Rent (₹)</label>
                 <input type="number" id="a_rent" class="form-control mb-2">
@@ -80,18 +117,16 @@
                 <label>Annual Expenses (₹)</label>
                 <input type="number" id="a_exp" class="form-control mb-2">
 
-                <label>Annual Loan Payment (₹)</label>
+                <label>Annual Loan</label>
                 <input type="number" id="a_loan" class="form-control mb-2">
 
-                <label>Investment Years</label>
+                <label>Years</label>
                 <input type="number" id="a_years" class="form-control mb-2">
-
             </div>
 
             <!-- PROPERTY B -->
             <div class="col-md-6">
-
-                <h4 class="text-success mb-3">Property B</h4>
+                <h4 class="mb-3" style="color:#00c6ff;">Property B</h4>
 
                 <label>Bedrooms</label>
                 <input type="number" id="b_bed" class="form-control mb-2">
@@ -102,24 +137,23 @@
                 <label>Sqft Living</label>
                 <input type="number" id="b_sqft" class="form-control mb-2">
 
-                <label>Grade (1-13)</label>
-<input type="number" id="b_grade" class="form-control mb-2">
+                <label>Grade</label>
+                <input type="number" id="b_grade" class="form-control mb-2">
 
-<label>Condition (1-5)</label>
-<input type="number" id="b_condition" class="form-control mb-2">
+                <label>Condition</label>
+                <input type="number" id="b_condition" class="form-control mb-2">
 
-<label>Year Built</label>
-<input type="number" id="b_year" class="form-control mb-2">
+                <label>Year Built</label>
+                <input type="number" id="b_year" class="form-control mb-2">
 
-<label>Year Sold</label>
-<input type="number" id="b_sold" class="form-control mb-2">
+                <label>Year Sold</label>
+                <input type="number" id="b_sold" class="form-control mb-2">
 
-<label>Latitude</label>
-<input type="text" id="b_lat" class="form-control mb-2">
+                <label>Latitude</label>
+                <input type="text" id="b_lat" class="form-control mb-2">
 
-<label>Longitude</label>
-<input type="text" id="b_long" class="form-control mb-2">
-
+                <label>Longitude</label>
+                <input type="text" id="b_long" class="form-control mb-2">
 
                 <label>Annual Rent (₹)</label>
                 <input type="number" id="b_rent" class="form-control mb-2">
@@ -127,12 +161,11 @@
                 <label>Annual Expenses (₹)</label>
                 <input type="number" id="b_exp" class="form-control mb-2">
 
-                <label>Annual Loan Payment (₹)</label>
+                <label>Annual Loan</label>
                 <input type="number" id="b_loan" class="form-control mb-2">
 
-                <label>Investment Years</label>
+                <label>Years</label>
                 <input type="number" id="b_years" class="form-control mb-2">
-
             </div>
 
         </div>
@@ -145,62 +178,56 @@
 
     </div>
 
-    <!-- RESULT SECTION -->
+    <!-- RESULT -->
     <div id="result" class="result-card"></div>
 
 </div>
 
-
 <script>
-
 async function compare() {
 
     const data = {
-    property1: {
-        bedrooms: +document.getElementById("a_bed").value,
-        bathrooms: +document.getElementById("a_bath").value,
-        sqft_living: +document.getElementById("a_sqft").value,
-        grade: +document.getElementById("a_grade").value,
-        condition: +document.getElementById("a_condition").value,
-        yr_built: +document.getElementById("a_year").value,
-        year_sold: +document.getElementById("a_sold").value,
-        lat: +document.getElementById("a_lat").value,
-        long: +document.getElementById("a_long").value,
-        rent: +document.getElementById("a_rent").value,
-        expenses: +document.getElementById("a_exp").value,
-        loan: +document.getElementById("a_loan").value,
-        years: +document.getElementById("a_years").value
-    },
-
-    property2: {
-        bedrooms: +document.getElementById("b_bed").value,
-        bathrooms: +document.getElementById("b_bath").value,
-        sqft_living: +document.getElementById("b_sqft").value,
-        grade: +document.getElementById("b_grade").value,
-        condition: +document.getElementById("b_condition").value,
-        yr_built: +document.getElementById("b_year").value,
-        year_sold: +document.getElementById("b_sold").value,
-        lat: +document.getElementById("b_lat").value,
-        long: +document.getElementById("b_long").value,
-        rent: +document.getElementById("b_rent").value,
-        expenses: +document.getElementById("b_exp").value,
-        loan: +document.getElementById("b_loan").value,
-        years: +document.getElementById("b_years").value
-    }
-};
+        property1: {
+            bedrooms: +a_bed.value,
+            bathrooms: +a_bath.value,
+            sqft_living: +a_sqft.value,
+            grade: +a_grade.value,
+            condition: +a_condition.value,
+            yr_built: +a_year.value,
+            year_sold: +a_sold.value,
+            lat: +a_lat.value,
+            long: +a_long.value,
+            rent: +a_rent.value,
+            expenses: +a_exp.value,
+            loan: +a_loan.value,
+            years: +a_years.value
+        },
+        property2: {
+            bedrooms: +b_bed.value,
+            bathrooms: +b_bath.value,
+            sqft_living: +b_sqft.value,
+            grade: +b_grade.value,
+            condition: +b_condition.value,
+            yr_built: +b_year.value,
+            year_sold: +b_sold.value,
+            lat: +b_lat.value,
+            long: +b_long.value,
+            rent: +b_rent.value,
+            expenses: +b_exp.value,
+            loan: +b_loan.value,
+            years: +b_years.value
+        }
+    };
 
     const res = await fetch("/api/compare", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data)
     });
 
     const result = await res.json();
 
     document.getElementById("result").innerHTML = `
-
     <div class="card p-4">
 
         <h4 class="text-center mb-4">📊 Comparison Result</h4>
@@ -208,19 +235,11 @@ async function compare() {
         <div class="row text-center">
 
             <div class="col-md-5">
-                <div class="card p-3 border-primary">
-                    <h5 class="text-primary">Property A</h5>
-
-                    <p><b>Price</b></p>
-                    <h6>₹ ${result.property1.price}</h6>
-
-                    <p class="mt-2"><b>ROI</b></p>
-                    <h5 class="${result.property1.roi > result.property2.roi ? 'text-success' : 'text-danger'}">
-                        ${result.property1.roi}%
-                    </h5>
-
-                    <p class="mt-2"><b>IRR</b></p>
-                    <h6>${result.property1.irr}%</h6>
+                <div class="card p-3">
+                    <h5 style="color:#7f00ff;">Property A</h5>
+                    <p>₹ ${result.property1.price}</p>
+                    <p>ROI: ${result.property1.roi}%</p>
+                    <p>IRR: ${result.property1.irr}%</p>
                 </div>
             </div>
 
@@ -229,19 +248,11 @@ async function compare() {
             </div>
 
             <div class="col-md-5">
-                <div class="card p-3 border-success">
-                    <h5 class="text-success">Property B</h5>
-
-                    <p><b>Price</b></p>
-                    <h6>₹ ${result.property2.price}</h6>
-
-                    <p class="mt-2"><b>ROI</b></p>
-                    <h5 class="${result.property2.roi > result.property1.roi ? 'text-success' : 'text-danger'}">
-                        ${result.property2.roi}%
-                    </h5>
-
-                    <p class="mt-2"><b>IRR</b></p>
-                    <h6>${result.property2.irr}%</h6>
+                <div class="card p-3">
+                    <h5 style="color:#00c6ff;">Property B</h5>
+                    <p>₹ ${result.property2.price}</p>
+                    <p>ROI: ${result.property2.roi}%</p>
+                    <p>IRR: ${result.property2.irr}%</p>
                 </div>
             </div>
 
@@ -249,20 +260,13 @@ async function compare() {
 
         <div class="text-center mt-4">
             <div class="alert alert-success winner-box">
-                🏆 Best Investment: 
-                ${result.property1.roi > result.property2.roi ? "Property A" : "Property B"}
+                🏆 Best: ${result.property1.roi > result.property2.roi ? "Property A" : "Property B"}
             </div>
         </div>
 
     </div>
     `;
-
-    document.getElementById("result").scrollIntoView({
-    behavior: "smooth"
-});
 }
-
 </script>
 
-</body>
-</html>
+{% endblock %}
